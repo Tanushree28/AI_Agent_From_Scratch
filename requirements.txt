@@ -5,3 +5,9 @@ langchain-openai
 python-dotenv
 pydantic
 ddgs
+duckduckgo-search
+wikipedia
+requests
+beautifulsoup4
+streamlit
+langchain-anthropic

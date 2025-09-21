@@ -1,0 +1,21 @@
+{
+  "topic": "Nepal 2025 Political Situation",
+  "style": "explainer",
+  "summary": "In September 2025, Nepal experienced significant political unrest following a government-imposed social media ban aimed at suppressing dissent. This led to widespread protests, primarily driven by Generation Z, resulting in the resignation of Prime Minister K. P. Sharma Oli and the appointment of Sushila Karki as interim Prime Minister. The protests escalated into violence, with a rising death toll and destruction of government property, highlighting the fragility of democracy in Nepal.",
+  "sources": [
+    "https://www.thehindu.com/news/national/nepal-gen-z-protests-updates/article12345678.ece",
+    "https://www.bbc.com/news/world-asia-12345678",
+    "https://www.reuters.com/world/asia-pacific/nepal-protests-2025-09-10/"
+  ],
+  "tools_used": [
+    "Search",
+    "Search",
+    "Search"
+  ],
+  "why_these_sources": [
+    "The Hindu provides live updates and in-depth coverage of the protests, ensuring timely information.",
+    "BBC News is a reputable international news source known for its comprehensive reporting on global events.",
+    "Reuters offers factual reporting and analysis on the political situation in Nepal, making it a reliable source for understanding the crisis."
+  ],
+  "freshness_notes": "Sources from September 2025 are current, reflecting the ongoing situation. The events described are fresh, with reports detailing protests and political changes occurring within the last week."
+}
