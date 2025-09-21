@@ -1,8 +1,8 @@
 # app/agent.py
 from dotenv import load_dotenv
 from pydantic import BaseModel, Field
-# from langchain_openai import ChatOpenAI
-from langchain_anthropic import ChatAnthropic
+from langchain_openai import ChatOpenAI
+# from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain.agents import create_tool_calling_agent, AgentExecutor
@@ -51,8 +51,8 @@ Rules:
 # Expose all tools (Search, Wikipedia, Save JSON, Load URL, Save TXT)
 tools = [search_tools, wiki_tool, savejson_tool, loadurl_tool, save_tools]
 
-# llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-llm = ChatAnthropic(model="claude-3-5-sonnet-20241022", temperature=0)
+llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+# llm = ChatAnthropic(model="claude-3-5-sonnet-20241022", temperature=0)
 
 agent = create_tool_calling_agent(llm=llm, prompt=prompt, tools=tools)
 agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
