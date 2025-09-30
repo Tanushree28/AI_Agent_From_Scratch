@@ -1,4 +1,4 @@
-"""Tools are the things that the LLM/agents can use that we can either write ourself 
+"""Tools are the things that the LLM/agents can use that we can either write ourself
 or we can bring in from things like the Langchain Community HUB"""
 
 """
@@ -7,8 +7,6 @@ here we will see how to write 3 different tools:
 2. Go to duckduckgo and search
 3. Custom tool that we will write ourself which can be any python function
 """
-
-# tools.py
 
 """Tools the agent/LLM can call.
 Includes: Wikipedia, DuckDuckGo search, Save to TXT, Save to JSON, and LoadURL.
@@ -33,13 +31,17 @@ from langchain.tools import Tool, StructuredTool
 # Save to JSON (structured)
 # ---------------------------
 
+
 class SaveJSONArgs(BaseModel):
     # allow either a dict or JSON string; agent sometimes passes strings
-    data: Union[dict, str] = Field(..., description="Structured research output to save (dict or JSON string)")
+    data: Union[dict, str] = Field(
+        ..., description="Structured research output to save (dict or JSON string)"
+    )
     filename: Optional[str] = Field(
         default=None,
-        description="Optional filename like research_YYYYmmdd.json (saved under ./exports)"
+        description="Optional filename like research_YYYYmmdd.json (saved under ./exports)",
     )
+
 
 def save_json(data: Union[dict, str], filename: Optional[str] = None):
     # If data is a JSON string, parse it
@@ -60,10 +62,11 @@ def save_json(data: Union[dict, str], filename: Optional[str] = None):
 
     return {"saved_to": path}
 
+
 savejson_tool = StructuredTool.from_function(
     name="SaveJSON",
     description="Save structured research output as JSON into ./exports folder. "
-                "Pass the full final JSON in the 'data' field, optionally a 'filename'.",
+    "Pass the full final JSON in the 'data' field, optionally a 'filename'.",
     func=save_json,
     args_schema=SaveJSONArgs,
 )
@@ -73,6 +76,7 @@ savejson_tool = StructuredTool.from_function(
 # Save to TXT (original)
 # ---------------------------
 
+
 def save_to_txt(data: str, filename: str = "research_output.txt"):
     """Append plain-text research output to a .txt file."""
     os.makedirs(os.path.dirname(filename) or ".", exist_ok=True)
@@ -81,6 +85,7 @@ def save_to_txt(data: str, filename: str = "research_output.txt"):
     with open(filename, "a", encoding="utf-8") as f:
         f.write(formatted_data)
     return {"saved_to": os.path.abspath(filename)}
+
 
 save_tools = Tool(
     name="Save_Text_File",
@@ -93,6 +98,7 @@ save_tools = Tool(
 # Load URL (fetch & clean)
 # ---------------------------
 
+
 def _clean_text(html: str) -> str:
     soup = BeautifulSoup(html, "html.parser")
     for s in soup(["script", "style", "noscript"]):
@@ -100,6 +106,7 @@ def _clean_text(html: str) -> str:
     text = soup.get_text("\n")
     text = re.sub(r"\n{2,}", "\n\n", text)
     return text.strip()
+
 
 def fetch_url(url: str) -> str:
     """Fetch a public URL and return cleaned text (first ~8k chars).
@@ -114,6 +121,7 @@ def fetch_url(url: str) -> str:
         return _clean_text(r.text)[:8000]
     except Exception as e:
         return f"ERROR fetching URL: {e}"
+
 
 loadurl_tool = Tool(
     name="LoadURL",
