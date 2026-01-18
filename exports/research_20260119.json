@@ -1,0 +1,20 @@
+{
+  "topic": "Nepal recent news",
+  "style": "explainer",
+  "summary": "Recent news from Nepal highlights significant political developments, including the resignation of Kathmandu's mayor, Balendra Shah, to contest upcoming elections, and the Nepali Congress facing internal disputes. A tragic bus accident in Dharan resulted in five fatalities and multiple injuries. Additionally, Nepal's women's cricket team lost to Thailand in the ICC Women's T20 World Cup Qualifier. The government is also addressing issues related to election preparations and public safety measures.",
+  "sources": [
+    "https://kathmandupost.com/",
+    "https://www.thehimalayantimes.com/",
+    "https://english.nepalnews.com/"
+  ],
+  "tools_used": [
+    "Search",
+    "LoadURL"
+  ],
+  "why_these_sources": [
+    "The Kathmandu Post and The Himalayan Times are leading English-language newspapers in Nepal, providing authoritative coverage of local news.",
+    "Nepal News is a well-established online portal that offers diverse perspectives on current events in Nepal.",
+    "All sources are recent and cover a range of topics, ensuring a comprehensive view of the current situation in Nepal."
+  ],
+  "freshness_notes": "All sources are current, with updates from January 2026."
+}
