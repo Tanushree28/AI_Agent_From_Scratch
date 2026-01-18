@@ -1,8 +1,8 @@
-# CiteMint — Research Agent (Streamlit)
+# Investiagte — Research Agent (Streamlit)
 
 **CiteMint** is a tiny agentic research app. It uses an LLM + web tools to search, read, and produce a concise summary with **clickable citations**, **“why these sources”** bullets, and **freshness notes**. One-click **JSON/Markdown** export included.
 
-- **Live demo:** https://citemint.streamlit.app  
+- **Live demo:** https://(https://investigate.streamlit.app/) 
 - **Source:** https://github.com/<your-username>/AI_Agent_From_Scratch  
 - **Screenshot:**  
 <img width="1137" height="561" alt="image" src="https://github.com/user-attachments/assets/4a5bd587-3b31-430e-9697-d12aafb5a387" />
