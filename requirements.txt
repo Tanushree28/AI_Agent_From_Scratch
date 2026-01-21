@@ -11,3 +11,5 @@ requests
 beautifulsoup4
 streamlit
 langchain-anthropic
+langchain-google-genai
+langchain-huggingface

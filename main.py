@@ -1,13 +1,17 @@
+import os
 from dotenv import load_dotenv
 from pydantic import BaseModel
 from langchain_openai import ChatOpenAI
-# from langchain_anthropic import Anthropic
+from langchain_anthropic import ChatAnthropic
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import PydanticOutputParser
+from langchain_huggingface import ChatHuggingFace, HuggingFaceEndpoint
 from langchain.agents import create_tool_calling_agent, AgentExecutor
 from tools import search_tools, wiki_tool, save_tools
 
 load_dotenv()
+HF_TOKEN = os.getenv("HUGGINGFACEHUB_API_TOKEN") or os.getenv("HF_TOKEN")
 
 # Here specify all the fields that you wants as an output from LLM call
 class ResearchResponse(BaseModel):
@@ -16,8 +20,28 @@ class ResearchResponse(BaseModel):
     sources : list[str]
     tools_used : list[str]
 
-llm = ChatOpenAI(model="gpt-4o-mini")
-# llm2 = Anthropic(model="claude-3-5-sonnet-20241022")
+# llm = ChatOpenAI(model="gpt-4o-mini")
+# # llm2 = ChatAnthropic(model="claude-3-5-sonnet-20241022")
+# llm2 = ChatGoogleGenerativeAI(
+#     model="gemini-2.0-flash",  # good default
+#     google_api_key=(os.getenv("GOOGLE_API_KEY") or "").strip(),
+#     temperature=0.2,
+# )
+
+
+llm = HuggingFaceEndpoint(
+    repo_id="meta-llama/Llama-3.1-8B-Instruct",
+    task="text-generation",
+    huggingfacehub_api_token=HF_TOKEN,
+    max_new_tokens=700,
+    temperature=0.2,
+    do_sample=False,
+    provider="sambanova",
+)
+
+llm2 = ChatHuggingFace(llm=llm, temperature=0.2)
+
+
 
 # response = llm.invoke("What is the meaning of life")
 # print(response)
@@ -47,7 +71,7 @@ tools = [search_tools, wiki_tool, save_tools]
 
 # Creating n running the agent
 agent = create_tool_calling_agent(
-    llm = llm,
+    llm = llm2,
     prompt = prompt,
     tools = tools
 )

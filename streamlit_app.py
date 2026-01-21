@@ -1,5 +1,7 @@
+# streamlit_app.py
 import os, json, textwrap
 import streamlit as st
+
 from app.agent import run_research
 
 st.set_page_config(page_title="Research Agent", page_icon="🔎", layout="centered")
@@ -9,7 +11,6 @@ st.title("🔎 Research Agent ")
 if "query_input" not in st.session_state:
     st.session_state.query_input = ""
 
-# Callback to set preset safely
 def set_preset(val: str):
     st.session_state.query_text = val
 
@@ -26,7 +27,6 @@ with col2:
 
 safe = st.toggle("Safe mode (avoid risky advice)", value=True)
 
-# --- preset buttons that actually set the input field ---
 preset_cols = st.columns(4)
 presets = [
     "What is quantum computing?",
@@ -35,17 +35,19 @@ presets = [
     "Timeline of Web3",
 ]
 for i, p in enumerate(presets):
-    preset_cols[i].button(p, on_click=set_preset, args=(p,))  # <- safe update
+    preset_cols[i].button(p, on_click=set_preset, args=(p,))
 
-# quick check for API key present (nice UX) ---
-if not (os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY", None)):
-    st.warning("No OPENAI_API_KEY found. Add it in Streamlit **Secrets** before running.")
+# ✅ HF token check
+hf_token = (
+    os.getenv("HUGGINGFACEHUB_API_TOKEN")
+    or os.getenv("HF_TOKEN")
+    or st.secrets.get("HUGGINGFACEHUB_API_TOKEN", None)
+    or st.secrets.get("HF_TOKEN", None)
+)
 
-# quick check for API key present (nice UX) ---
-# if not (os.getenv("ANTHROPIC_API_KEY") or st.secrets.get("ANTHROPIC_API_KEY", None)):
-#     st.warning("No ANTHROPIC_API_KEY found. Add it in Streamlit **Secrets** before running.")
+if not hf_token:
+    st.warning("No Hugging Face token found. Add HUGGINGFACEHUB_API_TOKEN to .env or Streamlit Secrets.")
 
-# --- run form (prevents double-trigger on Enter) ---
 with st.form("run_form", clear_on_submit=False):
     submitted = st.form_submit_button("Run")
     user_query_clean = query.strip()
@@ -53,7 +55,7 @@ with st.form("run_form", clear_on_submit=False):
 if submitted and user_query_clean:
     user_q = f"[style={style}; safe={str(safe).lower()}] {user_query_clean}"
     with st.spinner("Researching..."):
-        result = run_research(user_q)  # returns dict (with fallback)
+        result = run_research(user_q)
 
     st.subheader("Summary")
     st.write(result.get("summary", ""))
@@ -113,4 +115,4 @@ if submitted and user_query_clean:
         st.code(json.dumps(result, indent=2), language="json")
 
 st.markdown("---")
-st.caption("Built with LangChain + OpenAI • Streamlit demo for portfolio")
+st.caption("Built with LangChain + HF • Streamlit demo for portfolio")
